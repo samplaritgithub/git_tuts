@@ -1,0 +1,1111 @@
+{
+	"info": {
+		"_postman_id": "3cd7293f-040f-4e73-bda9-e1fbfc046104",
+		"name": "employee automation(C)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29071784"
+	},
+	"item": [
+		{
+			"name": "/employee-types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/employee-types",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employee-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employee-types",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var emp = \"employee_\"+pm.variables.replaceIn('{{$randomInt}}');\r",
+							"pm.environment.set(\"emp_type\", emp);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"var jsonData =pm.response.json();\r",
+							"pm.globals.set(\"emptype_id\", jsonData.id);\r",
+							"console.log(\"emptype_id\");\r",
+							"pm.globals.set(\"emptype_name\", jsonData.employename);\r",
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employeeType\":\"{{emp_type}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sst_local_url}}/employee-types",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employee-types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employee-types/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/employee-types/{{emptype_id}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employee-types",
+						"{{emptype_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employee-types/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"employeeType\":\"employee12767\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sst_local_url}}/employee-types/{{emptype_id}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employee-types",
+						"{{emptype_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "text"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/employees",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employees",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var Aemp = \"Aemp_\"+pm.variables.replaceIn('{{$randomInt}}');\r",
+							"pm.environment.set(\"Random_Aemp\", Aemp);\r",
+							"\r",
+							"// Generate a random phone number without hyphens or characters\r",
+							"function generateRandomPhoneNumber() {\r",
+							"    const phoneNumber = Math.floor(Math.random() * 10000000000).toString().padStart(10, '0');\r",
+							"    return phoneNumber;\r",
+							"}\r",
+							"\r",
+							"// Set the generated phone number as an environment variable\r",
+							"const randomPhoneNumber = generateRandomPhoneNumber();\r",
+							"pm.environment.set(\"randomPhoneNumber\", randomPhoneNumber);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set(\"emp_ID\", jsonData.id);\r",
+							"pm.globals.set(\"Aemp_Code\", jsonData.code);\r",
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "text"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"code\": \"{{Random_Aemp}}\",\r\n  \"firstName\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"EmployeeType\": \"{{emptype_name}}\",\r\n  \"phoneNumber\": \"{{randomPhoneNumber}}\",\r\n  \"address\": {\r\n    \"address1\": \"{{$randomStreetAddress}}\",\r\n    \"address2\": \"{{$randomStreetAddress}}\",\r\n    \"city\": \"{{$randomCity}}\",\r\n    \"state\": \"{{$randomCity}}\",\r\n    \"zipCode\": \"{{$randomCountryCode}}\",\r\n    \"country\": \"{{$randomCountry}}\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sst_local_url}}/employees",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employees/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "text"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/employees/{{emp_ID}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employees",
+						"{{emp_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employees/{id}",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate a random phone number without hyphens or characters\r",
+							"function generateRandomPhoneNumber() {\r",
+							"    const phoneNumber = Math.floor(Math.random() * 10000000000).toString().padStart(10, '0');\r",
+							"    return phoneNumber;\r",
+							"}\r",
+							"\r",
+							"// Set the generated phone number as an environment variable\r",
+							"const randomPhoneNumber = generateRandomPhoneNumber();\r",
+							"pm.environment.set(\"randomPhoneNumber\", randomPhoneNumber);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "text"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"code\": \"{{randomcode}}\",\r\n  \"firstName\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"phoneNumber\": \"{{randomPhoneNumber}}\",\r\n  \"address\": {\r\n    \"address1\": \"{{$randomStreetAddress}}\",\r\n    \"address2\": \"{{$randomStreetAddress}}\",\r\n    \"city\": \"{{$randomCity}}\",\r\n    \"state\": \"{{$randomCity}}\",\r\n    \"zipCode\": \"{{$randomCountryCode}}\",\r\n    \"country\": \"{{$randomCountry}}\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sst_local_url}}/employees/{{emp_ID}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employees",
+						"{{emp_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 5000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/projects",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"projects"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "createdDate,desc",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/projects",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var PC = \"PC_\"+pm.variables.replaceIn('{{$randomInt}}');\r",
+							"pm.environment.set(\"Proj_code\", PC);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set(\"emp_ID\", jsonData.id);\r",
+							"pm.globals.set(\"Aemp_Code\", jsonData.code);\r",
+							"\r",
+							"\r",
+							"    // Parse the response body as JSON\r",
+							"var responseBody = JSON.parse(responseBody);\r",
+							"\r",
+							"// Extract the 'id' value from the response\r",
+							"var projectId = pm.response.json();\r",
+							"\r",
+							"// Store the 'id' value in a Postman variable for later use\r",
+							"pm.globals.set(\"projectId\", projectId.id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "text"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dcCode\": \"CSCS\",\r\n    \"code\": \"{{$randomInt}}\",  // Use double curly braces for variables\r\n    \"name\": \"IT-Par78k\",\r\n    \"description\": \"\",\r\n    \"manager\": {\r\n        \"createdBy\": \"sst-testuser@cscs.io\",\r\n        \"createdDate\": \"2023-07-31T08:48:52.490221Z\",\r\n        \"modifiedBy\": \"sst-testuser@cscs.io\",\r\n        \"modifiedDate\": \"2023-07-31T08:48:52.49023Z\",\r\n        \"id\": 30,\r\n        \"dcCode\": \"SST\",\r\n        \"code\": \"Emp_001\",\r\n        \"firstName\": \"chinnu\",\r\n        \"lastName\": \"Shiv\",\r\n        \"email\": \"Chinnu@gmail.com\",\r\n        \"employeeType\": \"Manager\",\r\n        \"joinDate\": null,\r\n        \"hireDate\": null,\r\n        \"birthDate\": null,\r\n        \"phoneNumber\": \"+917997211111\",\r\n        \"address\": {\r\n            \"id\": 30,\r\n            \"address1\": \"Ramamurthy nagar\",\r\n            \"address2\": null,\r\n            \"city\": \"Bengaluru\",\r\n            \"state\": \"Prince Edward Island\",\r\n            \"zipCode\": null,\r\n            \"country\": \"Canada\"\r\n        }\r\n    },\r\n    \"contactPerson\": {\r\n    \"createdBy\": \"sst-testuser@cscs.io\",\r\n    \"createdDate\": \"2023-08-18T10:53:32.661527Z\",\r\n    \"modifiedBy\": \"sst-testuser@cscs.io\",\r\n    \"modifiedDate\": \"2023-08-18T10:53:32.661528Z\",\r\n    \"id\": 132,\r\n    \"dcCode\": \"SST\",\r\n    \"code\": \"Aemp_621\",\r\n    \"firstName\": \"Russel\",\r\n    \"lastName\": \"Adams\",\r\n    \"email\": \"Oswald_Kerluke@hotmail.com\",\r\n    \"employeeType\": null,\r\n    \"joinDate\": null,\r\n    \"hireDate\": null,\r\n    \"birthDate\": null,\r\n    \"phoneNumber\": \"6047867455\",\r\n    \"address\": {\r\n        \"id\": 147,\r\n        \"address1\": \"401 Auer Center\",\r\n        \"address2\": \"563 Giles Corner\",\r\n        \"city\": \"Shanieberg\",\r\n        \"state\": \"Middletown\",\r\n        \"zipCode\": \"ZA\",\r\n        \"country\": \"Central African Republic\"\r\n    }\r\n},  // Use double curly braces for variables\r\n    \"startDate\": \"2023-07-22\",\r\n    \"endDate\": \"2023-07-30\",\r\n    \"status\": \"PENDING_APPROVAL\",\r\n    \"plannedEstimateCost\": 2463626,\r\n    \"projectPriorityName\": \"MEDIUM\",\r\n    \"location\": {\r\n        \"latitude\": 123.456,\r\n        \"longitude\": 789.012\r\n    },\r\n    \"projectTypeName\": \"Government\",\r\n    \"assetRequest\": [\r\n        {\r\n            \"dcCode\": \"CSCS\",\r\n            \"assetType\": \"BOBCAT\",\r\n            \"numberOfAssets\": \"3\",\r\n            \"startDateTime\": \"2023-07-22T18:30:00.000Z\",\r\n            \"endDateTime\": \"2023-07-25T18:30:00.000Z\",\r\n            \"currencySymbol\": null,\r\n            \"plannedCost\": \"566\",\r\n            \"total\": null,\r\n            \"number\": 1\r\n        }\r\n    ],\r\n    \"projectDocuments\": []\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sst_local_url}}/projects",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/projects/ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/projects/{{projectId}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"projects",
+						"{{projectId}}"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "createdDate,desc",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Work Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 8000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(8000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/work-order",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"work-order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create work order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var WO = \"W_code_\"+pm.variables.replaceIn('{{$randomInt}}');\r",
+							"pm.environment.set(\"Random_WO\", WO);\r",
+							"\r",
+							"var choices = [\"LOW\", \"MEDIUM\", \"HIGH\", \"VERY_HIGH\"];\r",
+							"var randomChoice = choices[Math.floor(Math.random() * choices.length)];\r",
+							"postman.setEnvironmentVariable(\"random_Priority\", randomChoice);\r",
+							"\r",
+							"var choices = [\"Planned\", \"Draft\", \"InProgress\", \"Approved\"];\r",
+							"var randomChoice = choices[Math.floor(Math.random() * choices.length)];\r",
+							"postman.setEnvironmentVariable(\"random_Status\", randomChoice);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Extract the 'id' value from the response\r",
+							"var projectId = pm.response.json();\r",
+							"\r",
+							"// Store the 'id' value in a Postman variable for later use\r",
+							"pm.globals.set(\"workorder_id\", projectId.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"\",\n    \"code\": \"{{Random_WO}}\",\n    \"projectId\": \"481\",\n    \"projectName\": \"PN_23\",\n    \"priority\": \"{{random_Priority}}\",\n    \"status\": \"{{WorkOrderStatus}}\",\n    \"startDate\": \"2023-07-22\",\n    \"endDate\": \"2030-09-25\",\n    \"description\": \"front-end withdrawal Open-source Car\",\n    \"employee\": {\n        \"createdBy\": \"testuser@cscs.io\",\n        \"createdDate\": \"2023-08-03T10:58:59.393342Z\",\n        \"modifiedBy\": \"testuser@cscs.io\",\n        \"modifiedDate\": \"2023-08-10T04:07:30.791933Z\",\n        \"id\": 42,\n        \"dcCode\": \"CSCS\",\n        \"code\": \"E2\",\n        \"firstName\": \"Eva\",\n        \"lastName\": \"George\",\n        \"email\": \"EG@cscs.io\",\n        \"employeeType\": \"Manager\",\n        \"joinDate\": null,\n        \"hireDate\": null,\n        \"birthDate\": null,\n        \"phoneNumber\": \"+919773368123\",\n        \"address\": {\n            \"id\": 62,\n            \"address1\": null,\n            \"address2\": null,\n            \"city\": null,\n            \"state\": null,\n            \"zipCode\": null,\n            \"country\": null\n        }\n    },\n    \"workorderDocuments\": [],\n    \"workOrderActivities\": [\n        {\n            \"id\": null,\n            \"dcCode\": \"CSCS\",\n            \"workOrderId\": \"\",\n            \"projectAssetId\": \"659\",\n            \"startDateTime\": \"2023-08-20T07:11:00.000Z\",\n            \"endDateTime\": \"2023-08-24T07:11:00.000Z\",\n            \"description\": \"Nakfa Dale District\",\n            \"totalHour\": \"889\",\n            \"activityType\": \"BA_563\",\n            \"location\": {\n                \"locationCode\": \"Expeditors International (UK) Ltd\"\n            },\n            \"status\": \"Approved\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{sst_local_url}}/work-order",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"work-order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Work Order/ ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/work-order/{{workorder_id}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"work-order",
+						"{{workorder_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Work Order Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var WO = \"WO_new_\"+pm.variables.replaceIn('{{$randomInt}}');",
+							"pm.environment.set(\"Random_WO\", WO);",
+							"",
+							"",
+							"var choices = [\"LOW\", \"MEDIUM\", \"HIGH\", \"VERY_HIGH\"];",
+							"var randomChoice = choices[Math.floor(Math.random() * choices.length)];",
+							"postman.setEnvironmentVariable(\"random_Priority\", randomChoice);",
+							"",
+							"",
+							"var choices = [\"Planned\", \"Draft\", \"InProgress\", \"Approved\"];",
+							"var randomChoice = choices[Math.floor(Math.random() * choices.length)];",
+							"postman.setEnvironmentVariable(\"random_Status\", randomChoice);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Response time is less than 000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"\",\r\n    \"code\": \"{{Random_WO}}\",\r\n    \"projectId\": \"481\",\r\n    \"projectName\": \"PN_23\",\r\n    \"priority\": \"{{random_Priority}}\",\r\n    \"status\": \"{{WorkOrderStatus}}\",\r\n    \"startDate\": \"2023-07-22\",\r\n    \"endDate\": \"2030-09-25\",\r\n    \"description\": \"front-end withdrawal Open-source Car\",\r\n    \"employee\": {\r\n        \"createdBy\": \"testuser@cscs.io\",\r\n        \"createdDate\": \"2023-08-03T10:58:59.393342Z\",\r\n        \"modifiedBy\": \"testuser@cscs.io\",\r\n        \"modifiedDate\": \"2023-08-10T04:07:30.791933Z\",\r\n        \"id\": 42,\r\n        \"dcCode\": \"CSCS\",\r\n        \"code\": \"E2\",\r\n        \"firstName\": \"Eva\",\r\n        \"lastName\": \"George\",\r\n        \"email\": \"EG@cscs.io\",\r\n        \"employeeType\": \"Manager\",\r\n        \"joinDate\": null,\r\n        \"hireDate\": null,\r\n        \"birthDate\": null,\r\n        \"phoneNumber\": \"+919773368123\",\r\n        \"address\": {\r\n            \"id\": 62,\r\n            \"address1\": null,\r\n            \"address2\": null,\r\n            \"city\": null,\r\n            \"state\": null,\r\n            \"zipCode\": null,\r\n            \"country\": null\r\n        }\r\n    },\r\n    \"workorderDocuments\": [],\r\n    \"workOrderActivities\": [\r\n        {\r\n            \"id\": null,\r\n            \"dcCode\": \"CSCS\",\r\n            \"workOrderId\": \"\",\r\n            \"projectAssetId\": \"659\",\r\n            \"startDateTime\": \"2023-08-20T07:11:00.000Z\",\r\n            \"endDateTime\": \"2023-08-24T07:11:00.000Z\",\r\n            \"description\": \"Nakfa Dale District\",\r\n            \"totalHour\": \"889\",\r\n            \"activityType\": \"BA_563\",\r\n            \"location\": {\r\n                \"locationCode\": \"Expeditors International (UK) Ltd\"\r\n            },\r\n            \"status\": \"Approved\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sst_local_url}}/work-order/{{workorder_id}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"work-order",
+						"{{workorder_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Work Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/work-order/{{workorder_id}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"work-order",
+						"{{workorder_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/project/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "text"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/projects/{{projectId}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"projects",
+						"{{projectId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employees/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "text"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/employees/{{emp_ID}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employees",
+						"{{emp_ID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employee-types/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "CSCS-Authorization-Token",
+						"value": "{{sst_auth_token}}",
+						"type": "default"
+					},
+					{
+						"key": "DCCODE",
+						"value": "{{sst_dc_code}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{sst_local_url}}/employee-types/{{emptype_id}}",
+					"host": [
+						"{{sst_local_url}}"
+					],
+					"path": [
+						"employee-types",
+						"{{emptype_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "sst_local_url",
+			"value": "https://qa.cscs-apps.com/cam"
+		},
+		{
+			"key": "sst_auth_token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsImZpcnN0bmFtZSI6InNzdCIsIm9yZ05hbWUiOiJTU1QiLCJyb2xlcyI6IlNTVF9BRE1JTiIsInVzZXJJZCI6MTIsIm9yZ0lkIjoiMTQiLCJsYXN0bmFtZSI6InRlc3R1c2VyIiwiZ2xvYmFsT3JnQ29kZSI6Im51bGwiLCJvcmdDb2RlIjoiU1NUIiwicGVybWlzc2lvbnMiOiIiLCJ1c2VyVHlwZSI6MCwiZXhwIjoxNjkzMTEwOTgxMjI1LCJlbWFpbCI6InNzdC10ZXN0dXNlckBjc2NzLmlvIiwidXNlcm5hbWUiOiJzc3QtdGVzdHVzZXJAY3Njcy5pbyIsInZlbmRvckNvZGVzIjoiIn0._Z0agxtg0gTJWmZAKNhT5YQ6TQY4ZcnbV4zS-SJ5KHUiC7QhQ0QIOMQAb7O-b3OWP6L2sM6YneOZ3D0UnhdqZw"
+		},
+		{
+			"key": "sst_dc_code",
+			"value": "SST"
+		}
+	]
+}
